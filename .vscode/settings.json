@@ -1,0 +1,4 @@
+{
+  "css.lint.duplicateProperties": "warning",
+  "editor.formatOnSave": false,
+}

@@ -1,0 +1,47 @@
+stages:
+  - build
+  - publish
+  - unpublish
+
+variables:
+  NPM_REGISTRY_HOST: js-pkg.sideagroup.com
+
+.npm-auth: &npm-auth_declaration
+  before_script:
+    - echo //$NPM_REGISTRY_HOST/:_authToken=\"$NPM_TOKEN\" > ~/.npmrc
+
+build:
+  stage: build
+  image: node:12
+  only:
+    - tags
+  artifacts:
+    expire_in: 30 days
+    paths:
+      - lib
+  script:
+    - npm ci
+    - npm run compile
+
+publish:
+  stage: publish
+  image: node:12
+  only:
+    - tags
+  dependencies:
+    - build
+  <<: *npm-auth_declaration
+  script:
+    - npm publish --registry https://$NPM_REGISTRY_HOST
+
+unpublish:
+  stage: unpublish
+  image: node:12
+  only:
+    - tags
+  dependencies:
+    - publish
+  when: manual
+  <<: *npm-auth_declaration
+  script:
+    - npm unpublish --force --registry https://$NPM_REGISTRY_HOST

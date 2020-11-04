@@ -1,0 +1,45 @@
+{
+  "name": "typescript-wp-cli",
+  "version": "1.0.0",
+  "description": "A nodejs wrapper for WP-CLI written in typescript",
+  "main": "lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "compile": "npm run lint && npm run clean && tsc",
+    "watch": "npm run clean && tsc --watch",
+    "lint": "eslint --ext .ts ./src",
+    "lint:fix": "npm run lint -- --fix",
+    "get-version": "echo $npm_package_version",
+    "git:tag": "git tag v$(npm run --silent get-version)",
+    "git:push": "git push && git push --tags",
+    "git:tag-and-push": "npm run git:tag && npm run git:push",
+    "publish:patch": "npm run lint && npm version patch && npm run git:push",
+    "publish:minor": "npm run lint && npm version minor && npm run git:push",
+    "publish:major": "npm run lint && npm version major && npm run git:push"
+  },
+  "author": "Francesco Liuzzi",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bluebird": "^3.5.29",
+    "has-values": "^2.0.1",
+    "moment": "^2.24.0",
+    "soap": "^0.30.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.0",
+    "http-proxy-to-socks": "^1.1.2",
+    "rimraf": "^3.0.0",
+    "ts-node": "^8.6.2",
+    "tslint": "^6.0.0",
+    "typescript": "^3.7.5"
+  }
+}
